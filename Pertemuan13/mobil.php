@@ -1,4 +1,5 @@
 <?php
+namespace Kendaraan;
 //Cara Penulisan class mobil
 class Mobil{
     //Cara Penulisan Property
@@ -16,6 +17,15 @@ class Mobil{
         return "Mobil berhenti";
     }
 }
+
+//Cara menggunakan namespace
+//use Kendaraan\Mobil;
+//Membuat inisial namespace
+use Kendaraan\Mobil as KMobil;
+
+//Instansiasi object dari namespace alias
+$mobil_ahmad = new KMobil();
+
 //Instansiasi Object
 $mobil_ahmad = new Mobil();
 $mobil_anton = new Mobil();
