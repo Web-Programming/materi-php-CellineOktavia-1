@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -48,6 +50,12 @@ class SupplierController extends Controller
             'title' => 'Daftar Supplier',
             'suppliers' => $suppliers
         ]);
+
+        $suppliers = DB::table('suppliers')->get();
+        return view('suppliers.index', compact('suppliers'));
+
+        // $suppliers = Supplier::all();
+        // return view('suppliers.index', compact('suppliers'));
     }
 
     /**

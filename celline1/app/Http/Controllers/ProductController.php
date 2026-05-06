@@ -13,14 +13,14 @@ class ProductController extends Controller
     public function index()
     {
         $title = "Daftar Produk";
-        // $products = [
-        //     ['id' => 1, 'name' => 'Laptop', 'price' => 7500000],
-        //     ['id' => 2, 'name' => 'Mouse', 'price' => 150000],
-        //     ['id' => 3, 'name' => 'Keyboard', 'price' => 300000],
-        //     ['id' => 4, 'name' => 'Monitor', 'price' => 2500000],
-        // ];
+        $products = [
+            ['id' => 1, 'name' => 'Laptop', 'price' => 7500000],
+            ['id' => 2, 'name' => 'Mouse', 'price' => 150000],
+            ['id' => 3, 'name' => 'Keyboard', 'price' => 300000],
+            ['id' => 4, 'name' => 'Monitor', 'price' => 2500000],
+        ];
         
-        //$products = Product::all(); //cara 1
+        // $products = Product::all(); //cara 1
         //$products = DB::select('SELECT * FROM products'); //cara 2
         $products = DB::table('products')->get(); //cara 3
 
@@ -37,6 +37,14 @@ class ProductController extends Controller
     public function create()
     {
         return view('produk.create');
+        Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'status' => $request->status,
+            'is_active' => $request->has('is_active'),
+            'release_date' => $request->release_date,
+        ]);
     }
 
     /**
@@ -44,10 +52,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required|max:100',
+            'price' => 'required|numeric',
+            'description' => 'nullable',
+            'status' => 'required|in:new,used',
+            'release_date' => 'nullable|date',
+        ]);
 
-    /**
+        return redirect('/produk')->with('success', 'Produk berhasil ditambahkan');
+        }
+
+     /**
      * Display the specified resource.
      */
     public function show(string $id)
@@ -60,17 +76,32 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        return view('produk.edit', ['id' => $id]);
-    }
+    public function edit($id)
+{   
+    $product = Product::findOrFail($id);
+    return view('produk.edit', compact('product'));
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        request->validate([
+            'name' => 'required|max:100',
+            'price' => 'required|numeric',
+            'status' => 'required|in:new,used',
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'description' => $request->description,
+            'status' => $request->status,
+            'is_active' => $request->has('is_active'),
+            'release_date' => $request->release_date,
+        ]);
+
+        return redirect('/produk');
     }
 
     /**
@@ -86,3 +117,6 @@ class ProductController extends Controller
         return view('produk.search');
     }
 }
+
+
+   

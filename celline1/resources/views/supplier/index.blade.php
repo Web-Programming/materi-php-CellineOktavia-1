@@ -25,7 +25,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>No</th>
-                    <th>Nama Supplier</th>
+                    <th>Nama Supplier</th>  
                     <th>Telepon</th>
                     <th>Alamat</th>
                     <th>Action</th>
@@ -34,7 +34,7 @@
             <tbody>
                 @foreach ($suppliers as $index => $supplier)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $supplier['name'] }}</td>
                         <td>{{ $supplier['phone'] }}</td>
                         <td>{{ $supplier['address'] }}</td>

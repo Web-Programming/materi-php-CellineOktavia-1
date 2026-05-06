@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route ke halaman utama (home)
 Route::get('/', function () {
-    echo "Hallo, Nama Saya Pak JR";
+    echo "Hallo, Nama Saya Celline";
     //return view('welcome');
 });
 //Route ke halaman alamat
@@ -117,5 +117,9 @@ Route::get('/produk/search', ProductController::class.'@search');
 // });
 
 //php artisan make:controller SupplierController --resource
-use App\Http\Controllers\SupplierController;
-Route::resource('/supplier', SupplierController::class);
+Route::get('/produk', [ProductController::class, 'index']);
+Route::get('/produk/create', [ProductController::class, 'create']);
+Route::post('/produk', [ProductController::class, 'store']);
+
+Route::get('/produk/{id}/edit', [ProductController::class, 'edit']);
+Route::put('/produk/{id}', [ProductController::class, 'update']);

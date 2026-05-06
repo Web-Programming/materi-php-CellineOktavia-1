@@ -11,7 +11,10 @@
         class="list-group-item list-group-item-action ps-4 
         {{ request()->is('produk/search') ? 'active' : '' }}">Cari
         Produk</a>
-@endsection
+    <a href="/produk/edit"
+        class="list-group-item list-group-item-action ps-4 
+        {{ request()->is('produk/edit') ? 'active' : '' }}">Edit
+        Produk</a>
 @endsection
 
 @section('content')
@@ -41,7 +44,7 @@
                         </td>
                     </tr>
                 @endfor --}}
-                @foreach ($products as $item)
+                {{-- @foreach ($products as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->name }}</td>
@@ -52,7 +55,24 @@
                                 class="btn btn-sm btn-primary">Edit</a>
                         </td>
                     </tr>
+                @endforeach --}}
+
+                @foreach ($products as $index => $product)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->price }}</td>
+                     <td>{{ $product->action }}</td>
+                    <td>
+                        <a href="{{ url('/produk/' . $product->id) }}" class="btn btn-sm btn-info">Detail</a>
+                        <a href="{{ url('/produk/' . $product->id . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
+                     </td>
+                </tr>
                 @endforeach
+
+                @if(session('success'))
+                    <p>{{ session('success') }}</p>
+                @endif
             </tbody>
         </table>
     </div>
