@@ -11,10 +11,7 @@
         class="list-group-item list-group-item-action ps-4 
         {{ request()->is('produk/search') ? 'active' : '' }}">Cari
         Produk</a>
-    <a href="/produk/edit"
-        class="list-group-item list-group-item-action ps-4 
-        {{ request()->is('produk/edit') ? 'active' : '' }}">Edit
-        Produk</a>
+@endsection
 @endsection
 
 @section('content')
@@ -28,6 +25,7 @@
                     <th>No</th>
                     <th>Nama Produk</th>
                     <th>Harga</th>
+                    <th>Description</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -44,35 +42,23 @@
                         </td>
                     </tr>
                 @endfor --}}
-                {{-- @foreach ($products as $item)
+                @foreach ($products as $item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->name }}</td>
                         <td>Rp {{ number_format($item->price, 2, ',', '.') }}</td>
+                        <td>{{ $item->description }}</td>
                         <td>
                             <a href="{{ url('/produk/' . $item->id) }}" class="btn btn-sm btn-info">Detail</a>
-                            <a href="{{ url('/produk/' . $item->id . '/edit') }}"
-                                class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{{ url('/produk/' . $item->id . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>     
+                            <form action="{{ url('/produk/' . $item->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+                            </form>
                         </td>
                     </tr>
-                @endforeach --}}
-
-                @foreach ($products as $index => $product)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->price }}</td>
-                     <td>{{ $product->action }}</td>
-                    <td>
-                        <a href="{{ url('/produk/' . $product->id) }}" class="btn btn-sm btn-info">Detail</a>
-                        <a href="{{ url('/produk/' . $product->id . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
-                     </td>
-                </tr>
                 @endforeach
-
-                @if(session('success'))
-                    <p>{{ session('success') }}</p>
-                @endif
             </tbody>
         </table>
     </div>
